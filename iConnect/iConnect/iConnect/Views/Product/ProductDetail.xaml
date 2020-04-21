@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:xamanimation="clr-namespace:Xamanimation;assembly=Xamanimation" xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" xmlns:models="clr-namespace:iConnect.Models" xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             mc:Ignorable="d"
+             x:Class="iConnect.Views.Product.ProductDetail">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xamanimation:StoryBoard x:Key = "ImgAnimation" Target ="{x:Reference ImgProduct}">
+                <xamanimation:TranslateToAnimation TranslateY = "0" Duration = "300" />
+                <xamanimation:FadeInAnimation />
+            </xamanimation:StoryBoard>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Triggers>
+        <EventTrigger Event = "Appearing">
+            <xamanimation:BeginAnimation 
+               Animation = "{StaticResource ImgAnimation}" />
+        </EventTrigger>
+    </ContentPage.Triggers>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="StartAndExpand">
+            <StackLayout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+                    <cards:CubeView 
+                x:Name="ImgProduct"
+                ItemsSource="{Binding Item.productImgeDetail}"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill">
+                        <cards:CubeView.ItemTemplate>
+                            <DataTemplate>
+                                <ContentView>
+                                    <Frame 
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            HeightRequest="300"
+                            WidthRequest="300"
+                            Padding="0" 
+                            HasShadow="false"
+                            IsClippedToBounds="true"
+                            CornerRadius="10"
+                            BackgroundColor="#edeef0">
+                                        <Image Source="{Binding img}"/>
+                                    </Frame>
+                                </ContentView>
+                            </DataTemplate>
+                        </cards:CubeView.ItemTemplate>
+                    </cards:CubeView>
+                    <StackLayout Grid.Row="1" Margin="20,10">
+                        <Label Text="{Binding Item.Name}" FontSize="30" FontAttributes="Bold"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="&#xe9da;" TextColor="#e6a5bb" FontFamily="{StaticResource icomoon}"></Label>
+                            <Label Text="&#xe9da;" TextColor="#e6a5bb" FontFamily="{StaticResource icomoon}"></Label>
+                            <Label Text="&#xe9da;" TextColor="#e6a5bb" FontFamily="{StaticResource icomoon}"></Label>
+                            <Label Text="&#xe9da;" TextColor="#e6a5bb" FontFamily="{StaticResource icomoon}"></Label>
+                            <Label Text="12k lượt xem"></Label>
+                        </StackLayout>
+                        <Label Text="Màu" FontSize="15" FontAttributes="Bold"/>
+                        <CollectionView HeightRequest="30"  ItemsSource="{Binding Item.productImgeDetail}" Margin="0,5">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ProductImgeDetail">
+                                    <StackLayout>
+                                        <yummy:PancakeView 
+                                            BackgroundColor="{Binding color}"
+                                            CornerRadius="30"
+                                            HeightRequest="30" 
+                                            WidthRequest="30">
+                                            <yummy:PancakeView.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="Color_Tapped" />
+                                            </yummy:PancakeView.GestureRecognizers>
+                                        </yummy:PancakeView>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Label Text="Mô tả" FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="{Binding Item.description}" FontSize="15" MaxLines="7" LineBreakMode="TailTruncation"/>
+                        <Label Text="Giá" FontSize="15" FontAttributes="Bold"/>
+                        <Label Text="{Binding Item.price,StringFormat='{0:0,0} ₫'}" FontSize="25" FontAttributes="Bold"/>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+            <StackLayout VerticalOptions="End">
+                <Frame>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Text="Mua" BackgroundColor="#5fc49c" TextColor="#ffffff" HorizontalOptions="Fill" Margin="10,0"/>
+                        <Label Grid.Column="1" Text="&#xe9da;" YAlign="Center"  XAlign="Center"  FontSize="30" TextColor="#e6a5bb" FontFamily="{StaticResource icomoon}"></Label>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

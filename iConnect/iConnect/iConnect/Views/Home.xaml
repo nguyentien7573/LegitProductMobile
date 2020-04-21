@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:models="clr-namespace:iConnect.Models" xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView" xmlns:cards="clr-namespace:PanCardView;assembly=PanCardView" xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:controls="clr-namespace:PanCardView.Controls;assembly=PanCardView" xmlns:proc="clr-namespace:PanCardView.Processors;assembly=PanCardView"
+             mc:Ignorable="d"
+             x:Class="iConnect.Views.Home">
+    <ContentPage.Content>
+        <RelativeLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <ScrollView 
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height,Factor=0,Constant=0}"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1,Constant=0}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="500" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackLayout>
+                        <cards:CarouselView 
+                        ItemsSource="{Binding Products}"
+                        SlideShowDuration="3500">
+                            <x:Arguments>
+                                <proc:BaseCarouselFrontViewProcessor ScaleFactor="0.5" OpacityFactor="0" RotationFactor="0.1" />
+                                <proc:BaseCarouselBackViewProcessor ScaleFactor="0.5" OpacityFactor="0" RotationFactor="0.1" />
+                            </x:Arguments>
+                            <cards:CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentView>
+                                        <Frame 
+                                        VerticalOptions="Fill"
+                                        HorizontalOptions="Fill"
+                                        HeightRequest="400"
+                                        WidthRequest="300"
+                                        Padding="0" 
+                                        HasShadow="false">
+                                            <AbsoluteLayout>
+                                                <ffimage:CachedImage Source="{Binding productImgeDetail[0].img}" BackgroundColor="#edeef0" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
+                                            </AbsoluteLayout>
+                                        </Frame>
+                                    </ContentView>
+                                </DataTemplate>
+                            </cards:CarouselView.ItemTemplate>
+                            <controls:IndicatorsControl/>
+                        </cards:CarouselView>
+
+                        <CollectionView HeightRequest="100"  ItemsSource="{Binding Categories}" Margin="10,0">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="30" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Category">
+                                    <StackLayout>
+                                        <yummy:PancakeView 
+                                            BackgroundColor="{Binding Color}" 
+                                            CornerRadius="30" 
+                                            HeightRequest="60" 
+                                            Opacity="{Binding Opacity}" 
+                                            WidthRequest="60">
+                                            <Label FontSize="22" 
+                                                FontFamily="{StaticResource icomoon}"
+                                                HorizontalOptions="Center" 
+                                                Text="{Binding Icon}" 
+                                                TextColor="White" 
+                                                VerticalOptions="Center" />
+                                            <yummy:PancakeView.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="Category_Tapped" />
+                                            </yummy:PancakeView.GestureRecognizers>
+                                        </yummy:PancakeView>
+                                        <Label Margin="0,10,0,0" HorizontalOptions="Center" Text="{Binding Name}" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                    <!--Product-->
+                    <StackLayout Grid.Row="1">
+                        <StackLayout Margin="10,10">
+                            <Label Text="Sản phẩm nối bật" FontSize="20"/>
+                            <CollectionView 
+                                HorizontalScrollBarVisibility="Never"
+                                Grid.Row="2"
+                                ItemsSource="{Binding Products}"
+                                VerticalOptions="StartAndExpand"
+                                ItemsLayout="HorizontalList"
+                                HeightRequest="250">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackLayout Margin="8,0">
+                                            <Frame HasShadow="False" WidthRequest="130" VerticalOptions="FillAndExpand" HorizontalOptions="Start" Padding="0">
+                                                <Grid HorizontalOptions="Center">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Image Grid.Row="0" Source="{Binding productImgeDetail[0].img}" Aspect="AspectFit" BackgroundColor="#edeef0"/>
+                                                    <Label Grid.Row="1" Text="{Binding Name}" XAlign="Center"  FontAttributes="Bold" TextColor="#48423c" FontSize="21"/>
+                                                    <Label Grid.Row="2" Text="{Binding price, StringFormat='{0:0,0} ₫'}" TextColor="#b48363" XAlign="Center" Margin="0,0,0,10"/>
+                                                </Grid>
+                                            </Frame>
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="HotProduct_Tapped"></TapGestureRecognizer>
+                                            </StackLayout.GestureRecognizers>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                        <StackLayout Margin="10,10">
+                            <Label Text="Sản phẩm đề cử" FontSize="20"/>
+                            <flv:FlowListView FlowColumnCount="2" SeparatorVisibility="None" HasUnevenRows="True" 
+                                      FlowItemAppearingCommand="{Binding LoadNominatedCommand}"
+	                                  FlowItemsSource="{Binding NominatedProducts}"
+                                       HeightRequest="500">
+                                <flv:FlowListView.FlowColumnTemplate>
+                                    <DataTemplate>
+                                        <Frame HasShadow="False" VerticalOptions="FillAndExpand" HorizontalOptions="Fill" Padding="0" Margin="5,5">
+                                            <Grid HorizontalOptions="Center">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Image Grid.Row="0" Source="{Binding productImgeDetail[0].img}" Aspect="AspectFit" BackgroundColor="#edeef0"/>
+                                                <Label Grid.Row="1" Text="{Binding Name}" XAlign="Center"  FontAttributes="Bold" TextColor="#48423c" FontSize="21"/>
+                                                <Label Grid.Row="2" Text="{Binding price, StringFormat='{0:0,0} ₫'}" TextColor="#b48363" XAlign="Center" Margin="0,0,0,10"/>
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </flv:FlowListView.FlowColumnTemplate>
+                            </flv:FlowListView>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+            </ScrollView>
+            <Frame Padding="0" HasShadow="False" Margin="5,0" BackgroundColor="White" BorderColor="#000000"
+                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, ElementName=map,Property=Width,Constant=0,Factor=0}"
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, ElementName=map,Property=Height,Constant=0,Factor=0.01}"
+                   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+                   RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.075,Constant=0}">
+                <StackLayout Orientation="Horizontal">
+                    <SearchBar Placeholder="Tìm sản phẩm của bạn"/>
+                </StackLayout>
+            </Frame>
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

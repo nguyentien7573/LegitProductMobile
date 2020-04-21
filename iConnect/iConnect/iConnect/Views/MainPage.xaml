@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d"
+            xmlns:views="clr-namespace:iConnect.Views"
+            x:Class="iConnect.Views.MainPage"
+            BarBackgroundColor="#eff0f1"
+            UnselectedTabColor="#9a9899"
+            SelectedTabColor="#000000">
+    <TabbedPage.Children>
+        <views:Home Title="Trang chủ" IconImageSource="Home.png"/>
+        <views:Favourite Title="Yêu thích" IconImageSource="heart.png"/>
+        <views:Conversation Title="Trò chuyện" IconImageSource="chat.png"/>
+        <views:Profile Title="Tài khoản" IconImageSource="profile.png"/>
+    </TabbedPage.Children>
+</TabbedPage>
